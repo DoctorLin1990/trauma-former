@@ -1,0 +1,27 @@
+# LSTM baseline configuration
+# Based on paper Section 2.7 and Supplementary S2.3
+
+model:
+  name: "LSTM"
+  architecture: "Bidirectional LSTM"
+  input_dim: 4
+  window_length: 60
+  hidden_size: 64
+  num_layers: 2
+  dropout: 0.2
+  bidirectional: true
+
+training:
+  optimizer: "AdamW"
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  batch_size: 64
+  max_epochs: 100
+  early_stopping_patience: 10
+  loss_function: "binary_cross_entropy"
+  validation_metric: "AUROC"
+
+data_preprocessing:
+  normalization: "z-score"
+  missing_handling: "zero_pad + attention_mask"  # same as Trauma-Former for consistency
+  interpolation_max_gap: 5

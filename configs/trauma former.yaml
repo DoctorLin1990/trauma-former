@@ -1,0 +1,32 @@
+# Trauma-Former model configuration
+# Based on Supplementary S2.2 and paper Section 2.5
+
+model:
+  name: "Trauma-Former"
+  architecture: "iTransformer"
+  input_variables: ["HR", "SBP", "DBP", "SpO2"]
+  window_length: 60
+  embedding_dim: 256
+  num_encoder_layers: 2
+  num_attention_heads: 4
+  feedforward_dim: 512
+  dropout: 0.2
+  activation: "gelu"
+  classifier_hidden_dim: 128
+  classifier_dropout: 0.2
+  total_parameters: 1520000  # approximate
+
+training:
+  optimizer: "AdamW"
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  batch_size: 64
+  max_epochs: 100
+  early_stopping_patience: 10
+  loss_function: "binary_cross_entropy"
+  validation_metric: "AUROC"
+
+data_preprocessing:
+  normalization: "z-score"
+  missing_handling: "zero_pad + attention_mask"
+  interpolation_max_gap: 5  # seconds
