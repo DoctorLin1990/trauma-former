@@ -1,0 +1,23 @@
+# LR-trend baseline configuration (Supplementary S2.3.1)
+# Key diagnostic baseline: quantifies how much task reduces to detecting
+# monotonic vital-sign trends (AUROC 0.917 vs Trauma-Former 0.939).
+
+model:
+  name: "LR-trend"
+  architecture: "Logistic Regression on linear-regression features"
+  input_variables: ["HR", "SBP", "DBP", "SpO2"]
+  window_length: 60
+  n_features: 12         # 3 per variable × 4 variables (slope, intercept, R²)
+  C: 1.0                 # L2 regularisation (default; no search performed)
+  solver: "lbfgs"
+  max_iter: 1000
+
+training:
+  # LR-trend is a sklearn model; these settings are for reference only.
+  cross_validation_folds: 5
+  validation_metric: "AUROC"
+
+data_preprocessing:
+  normalization: "z-score"
+  missing_handling: "zero_pad"
+  interpolation_max_gap: 5

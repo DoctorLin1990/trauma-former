@@ -1,0 +1,28 @@
+# 1D-CNN baseline configuration (Supplementary Table S2.3)
+
+model:
+  name: "1D-CNN"
+  architecture: "1D Convolutional Neural Network"
+  input_variables: ["HR", "SBP", "DBP", "SpO2"]
+  window_length: 60
+  conv1_filters: 32
+  conv2_filters: 64
+  kernel_size: 3
+  pool_size: 2
+  fc_hidden: 128
+  dropout: 0.20
+
+training:
+  optimizer: "AdamW"
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-4
+  batch_size: 64
+  max_epochs: 200
+  early_stopping_patience: 10
+  loss_function: "binary_cross_entropy"
+  validation_metric: "AUROC"
+
+data_preprocessing:
+  normalization: "z-score"
+  missing_handling: "zero_pad + attention_mask"
+  interpolation_max_gap: 5
