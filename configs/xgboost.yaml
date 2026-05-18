@@ -1,0 +1,25 @@
+# XGBoost baseline configuration (Supplementary Table S2.5)
+# Parameters selected by 5-fold CV grid search.
+
+model:
+  name: "XGBoost"
+  architecture: "Gradient Boosted Trees"
+  n_estimators: 500          # NOTE: original repo had 200 — corrected to 500
+  max_depth: 6
+  learning_rate: 0.05        # NOTE: original repo had 0.1 — corrected to 0.05
+  subsample: 0.8
+  colsample_bytree: 0.8
+  eval_metric: "auc"
+  random_state: 42
+  n_features: 20             # mean, slope, min, max, var × 4 vitals
+
+training:
+  cross_validation_folds: 5
+  early_stopping_rounds: 10
+  validation_metric: "AUROC"
+
+data_preprocessing:
+  normalization: "z-score"
+  missing_handling: "zero_pad"
+  interpolation_max_gap: 5
+  feature_engineering: "20 summary stats per window (mean, slope, min, max, var × 4 vitals)"

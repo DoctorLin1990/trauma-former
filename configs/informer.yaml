@@ -1,0 +1,31 @@
+# Informer baseline configuration (Supplementary S2.3.6)
+# BUG-FIX v3: weight_decay corrected from 0.01 → 1.0e-4
+# BUG-FIX v3: max_epochs corrected from 100 → 200
+# NOTE: informer.py is now fully self-contained (no external package needed).
+
+model:
+  name: "Informer"
+  architecture: "Informer (self-contained, ProbSparse attention)"
+  input_dim: 4
+  window_length: 60
+  d_model: 128
+  n_heads: 4
+  e_layers: 3
+  d_ff: 512
+  dropout: 0.20
+  factor: 5
+
+training:
+  optimizer: "AdamW"
+  learning_rate: 1.0e-4
+  weight_decay:  1.0e-4     # FIXED: was 0.01
+  batch_size: 64
+  max_epochs: 200            # FIXED: was 100
+  early_stopping_patience: 10
+  loss_function: "binary_cross_entropy"
+  validation_metric: "AUROC"
+
+data_preprocessing:
+  normalization: "z-score"
+  missing_handling: "zero_pad + attention_mask"
+  interpolation_max_gap: 5

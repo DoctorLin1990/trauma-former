@@ -1,0 +1,32 @@
+# PatchTST baseline configuration (Supplementary S2.3.6)
+# BUG-FIX v3: weight_decay corrected from 0.01 → 1.0e-4
+# BUG-FIX v3: max_epochs corrected from 100 → 200
+
+model:
+  name: "PatchTST"
+  architecture: "PatchTST (channel-independent)"
+  input_dim: 4
+  window_length: 60
+  patch_len: 16              # → n_patches = (60-16)//8 + 1 = 6
+  stride: 8
+  n_layers: 3
+  d_model: 128
+  n_heads: 4
+  d_ff: 256                  # 2 × d_model
+  dropout: 0.20
+  head_dropout: 0.20
+
+training:
+  optimizer: "AdamW"
+  learning_rate: 1.0e-4
+  weight_decay:  1.0e-4     # FIXED: was 0.01
+  batch_size: 64
+  max_epochs: 200            # FIXED: was 100
+  early_stopping_patience: 10
+  loss_function: "binary_cross_entropy"
+  validation_metric: "AUROC"
+
+data_preprocessing:
+  normalization: "z-score"
+  missing_handling: "zero_pad + attention_mask"
+  interpolation_max_gap: 5

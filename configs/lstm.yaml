@@ -1,0 +1,31 @@
+# LSTM baseline configuration
+# Based on paper Section 2.7 and Supplementary S2.3.4
+# BUG-FIX v3: weight_decay corrected from 0.01 → 1.0e-4 (paper says "identical
+# optimisation settings" as Trauma-Former, which uses weight_decay=1e-4 per S2.2.2)
+# BUG-FIX v3: max_epochs corrected from 100 → 200 (paper: all DL baselines use 200)
+
+model:
+  name: "LSTM"
+  architecture: "Bidirectional LSTM"
+  input_dim: 4
+  window_length: 60
+  hidden_size: 64
+  num_layers: 2
+  dropout: 0.20
+  bidirectional: true
+  fc_hidden: 64
+
+training:
+  optimizer: "AdamW"
+  learning_rate: 1.0e-4     # identical to Trauma-Former (Section 2.7)
+  weight_decay:  1.0e-4     # FIXED: was 0.01 in original repo
+  batch_size: 64
+  max_epochs: 200            # FIXED: was 100 in original repo
+  early_stopping_patience: 10
+  loss_function: "binary_cross_entropy"
+  validation_metric: "AUROC"
+
+data_preprocessing:
+  normalization: "z-score"
+  missing_handling: "zero_pad + attention_mask"
+  interpolation_max_gap: 5
