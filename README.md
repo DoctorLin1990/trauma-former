@@ -138,27 +138,7 @@ trauma_former/
 
 ---
 
-## 3. Bug Fixes (v3)
-
-This repository is **version 3** of the codebase. The following bugs present in earlier versions have been corrected:
-
-| ID | File | Description |
-|----|------|-------------|
-| BUG-1 | `data/synthetic_generator.py` | TIC drift was applied **post-hoc** after the OU loop. Corrected to update the time-varying mean μᵢ(t) **inside** the Euler–Maruyama step, consistent with Supplementary Eq. 3. |
-| BUG-2 | `evaluation/alert_rule.py` | `compute_early_warning_time` converted persistence (minutes) to seconds then searched for that many **consecutive samples** in a minute-stride series — essentially never firing. Corrected via `samples_per_minute` parameter. |
-| BUG-3 | `models/baselines/shock_index.py` | Class was named `ShockIndex`; renamed to `ShockIndexModel` to match import in `train_cv.py`. |
-| BUG-4 | `configs/informer.yaml`, `configs/patchtst.yaml` | `weight_decay` was set to `0.01`; corrected to `1.0e-4` per Supplementary Table S2.2 (identical settings for all baselines). |
-| BUG-5 | `configs/informer.yaml`, `configs/patchtst.yaml` | `max_epochs` was set to `100`; corrected to `200` per Supplementary Table S2.2. |
-| BUG-6 | `models/baselines/informer.py` | Original required external `informer` package. Replaced with a self-contained ProbSparse attention implementation. |
-| BUG-7 | Repository root | Spurious directory `{data,models/...}` (shell brace expansion artefact) removed. |
-| BUG-8 | `experiments/` | `missingness_indicator_analysis.py` was entirely absent from earlier versions; added to reproduce Section 2.6 / Figure S2. |
-| BUG-9 | `evaluation/metrics.py` | `compute_all_metrics`, `bootstrap_ci`, `monte_carlo_standard_error`, and `multivariate_hellinger_distance` were missing; added. |
-| BUG-10 | `tests/` | Test directory was empty (`__init__.py` only); full smoke-test suite added. |
-| BUG-11 | `figures/` | Figure generation scripts were absent; `figures/generate_all_figures.py` added for S1–S6. |
-
----
-
-## 4. Requirements and Installation
+## 3. Requirements and Installation
 
 ### System requirements
 
@@ -208,7 +188,7 @@ See `requirements.txt` for the complete pinned environment.
 
 ---
 
-## 5. Data Generation
+## 4. Data Generation
 
 All data used in this study are **fully synthetic** — no patient records are required. The two datasets are generated deterministically from fixed random seeds.
 
@@ -244,7 +224,7 @@ python simulator/ou_generator.py --n_episodes 1240 --prevalence 0.5 \
 
 ---
 
-## 6. One-Command Reproduction
+## 5. One-Command Reproduction
 
 To reproduce all results from Tables 2 and 3 in a single command:
 
@@ -264,7 +244,7 @@ Results are saved to `results/`:
 
 ---
 
-## 7. Step-by-Step Reproduction
+## 6. Step-by-Step Reproduction
 
 ### Step 1: Generate data
 
@@ -357,7 +337,7 @@ python figures/generate_all_figures.py
 
 ---
 
-## 8. Expected Results
+## 7. Expected Results
 
 ### Table 2 — Development cohort (5-fold patient-level CV, 50% prevalence)
 
@@ -403,7 +383,7 @@ python figures/generate_all_figures.py
 
 ---
 
-## 9. Running Tests
+## 8. Running Tests
 
 ```bash
 # Full test suite
@@ -432,7 +412,7 @@ The test suite covers:
 
 ---
 
-## 10. Generating Figures
+## 9. Generating Figures
 
 ```bash
 # Generate all supplementary figures S1–S6 (TIFF, 300 DPI)
@@ -454,7 +434,7 @@ If experiment results (`results/*.json`, `results/*.csv`) are available, figures
 
 ---
 
-## 11. Data Availability Statement
+## 10. Data Availability Statement
 
 This study used **exclusively synthetically generated data**. No patient records, electronic health records, or identifiable health information were used or are contained in this repository.
 
@@ -480,7 +460,7 @@ The repository is version-controlled (Git), fully self-contained (no external pr
 
 ---
 
-## 13. Citation
+## 12. Citation
 
 If you use this code or the synthetic data generator in your research, please cite:
 
@@ -499,7 +479,7 @@ If you use this code or the synthetic data generator in your research, please ci
 
 ---
 
-## 14. License
+## 13. License
 
 This project is released under the **MIT License**. See [LICENSE](LICENSE) for full terms.
 
